@@ -98,11 +98,13 @@ serviceAccount:
   name: ""
 
 # -- Security context to be applied at the Pod level.
-podSecurityContext: {}
+podSecurityContext: 
+  {}
   # fsGroup: 2000
 
 # -- Security context to be applied to containers in the Pod.
-securityContext: {}
+securityContext: 
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -131,7 +133,8 @@ service:
     #   protocol: UDP
 
   # -- Set Annotations on the Redpanda Connect Service.
-  annotations: {}
+  annotations: 
+    {}
 
 #  -- Configuration for Kubernetes Ingress to expose Redpanda Connect externally.
 ingress:
@@ -140,7 +143,8 @@ ingress:
   # -- Ingress Class name for the Ingress resource.
   className: ""
   # -- Annotations for the Ingress resource.
-  annotations: {}
+  annotations: 
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   # -- List of host definitions for the Ingress resource.
@@ -164,12 +168,14 @@ env: []
 #        key: KAFKA_USER
 
 # -- Names of Secrets or ConfigMaps that contain environment variables to pass to the Redpanda Connect container.
-envFrom: []
+envFrom: 
+  []
   # - secretRef:
   #     name: redpanda
 
 # -- Resource limits and requests for the container.
-resources: {}
+resources: 
+  {}
   # By default, the chart does not specify default resources to increase the chances that it runs on environments with few
   # resources, such as Minikube. If you want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
@@ -238,7 +244,8 @@ updateStrategy: {}
 #     maxUnavailable: 1
 
 # -- Additional volumes to add to the Pod.
-extraVolumes: []
+extraVolumes: 
+  []
   # - name: config-map
   #   configMap:
   #     name: cm-name

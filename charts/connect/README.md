@@ -176,6 +176,76 @@ Labels to add to Redpanda Connect Pods.
 
 **Default:** `{}`
 
+### [deployment.priorityClassName](https://artifacthub.io/packages/helm/redpanda-data/connect?modal=values&path=deployment.priorityClassName)
+
+Kubernetes PriorityClass name to assign to Redpanda Connect Pods. This setting controls pod scheduling priority and eviction order when cluster nodes are under resource pressure.
+
+**Prerequisites:**
+- The specified PriorityClass must exist in the cluster before deployment
+- Requires appropriate RBAC permissions to use the PriorityClass
+- Coordinate with cluster administrators when using system-level priority classes
+
+**Common Use Cases:**
+
+1. **Critical Stream Processors**: Workloads that process high-throughput topics and cannot tolerate eviction
+2. **Low-Latency Pipelines**: Real-time data pipelines requiring guaranteed scheduling
+3. **CQRS Architectures**: Assign higher priority to command-side processors and lower priority to query-side processors for graceful degradation
+4. **Multi-Tenant Environments**: Separate production (high priority) from development/testing workloads (normal priority)
+
+**Configuration Examples:**
+
+```yaml
+# Basic usage with a custom priority class
+deployment:
+  priorityClassName: high-priority
+
+# CQRS command-side deployment (write-heavy, high priority)
+deployment:
+  priorityClassName: critical-commands
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+
+# CQRS query-side deployment (read-heavy, lower priority)
+deployment:
+  priorityClassName: standard-queries
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+
+# Production critical workload
+deployment:
+  priorityClassName: system-cluster-critical
+```
+
+**Operational Considerations:**
+
+- **Pod Preemption**: Pods with higher priority can preempt (evict) lower-priority pods when resources are constrained
+- **Scheduling Behavior**: Priority affects scheduling order but does not guarantee resource availability
+- **Resource Requests**: Use priorityClassName in combination with appropriate resource requests and limits
+- **Consumer Lag Impact**: Lower-priority pods may experience increased consumer lag during cluster pressure
+- **Monitoring**: Track pod eviction events and scheduling delays to tune priority settings
+
+**Troubleshooting:**
+
+If pods remain in `Pending` state after deployment:
+1. Verify the PriorityClass exists: `kubectl get priorityclasses`
+2. Check RBAC permissions for the ServiceAccount
+3. Review pod events: `kubectl describe pod <pod-name>`
+4. Ensure cluster has available resources for the requested priority level
+
+**Best Practices:**
+
+- Reserve high priorities (`system-cluster-critical`, `system-node-critical`) for truly critical workloads
+- Document priority class usage and rationale in your deployment documentation
+- Test pod behavior under simulated node pressure before production deployment
+- For CQRS patterns, establish a priority cascade: command processors > event processors > query updaters > query APIs
+- Monitor consumer lag and eventual consistency windows when using priority-based scheduling
+
+**Default:** `""`
+
 ### [deployment.readinessProbe](https://artifacthub.io/packages/helm/redpanda-data/connect?modal=values&path=deployment.readinessProbe)
 
 Configuration for the readiness probe that checks if the container is ready to accept traffic.

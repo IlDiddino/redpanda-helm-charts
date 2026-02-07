@@ -142,7 +142,7 @@ ingress:
   # -- Ingress Class name for the Ingress resource.
   className: ""
   # -- Annotations for the Ingress resource.
-  annotations: 
+  annotations:
     {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -253,7 +253,7 @@ extraVolumes:
   #     secretName: s-name
 
 # -- Additional volume mounts for the container.
-extraVolumeMounts: 
+extraVolumeMounts:
   []
   # - name: config-map
   #   mountPath: /mnt/configmap

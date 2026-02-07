@@ -182,8 +182,6 @@ Kubernetes PriorityClass name to assign to Redpanda Connect Pods. This setting c
 
 **Prerequisites:**
 - The specified PriorityClass must exist in the cluster before deployment
-- Requires appropriate RBAC permissions to use the PriorityClass
-- Coordinate with cluster administrators when using system-level priority classes
 
 **Default:** `""`
 

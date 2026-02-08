@@ -178,12 +178,9 @@ Labels to add to Redpanda Connect Pods.
 
 ### [deployment.priorityClassName](https://artifacthub.io/packages/helm/redpanda-data/connect?modal=values&path=deployment.priorityClassName)
 
-Kubernetes PriorityClass name to assign to Redpanda Connect Pods. This setting controls pod scheduling priority and eviction order when cluster nodes are under resource pressure.
+Kubernetes PriorityClass name to assign to Redpanda Connect Pods. The specified PriorityClass must already exist in the cluster before deployment. Leave empty (default) for standard scheduling priority.
 
-**Prerequisites:**
-- The specified PriorityClass must exist in the cluster before deployment
-
-**Default:** `""`
+**Default:** not set
 
 ### [deployment.readinessProbe](https://artifacthub.io/packages/helm/redpanda-data/connect?modal=values&path=deployment.readinessProbe)
 
